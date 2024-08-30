@@ -1,0 +1,99 @@
+import React, { useState } from 'react';
+
+const App = () => {
+  const [timeSlots, setTimeSlots] = useState([]);
+
+  const addTimeSlot = () => {
+    setTimeSlots([...timeSlots, { day: '', startTime: '', endTime: '' }]);
+  };
+
+  const removeTimeSlot = (index) => {
+    const newTimeSlots = [...timeSlots];
+    newTimeSlots.splice(index, 1);
+    setTimeSlots(newTimeSlots);
+  };
+
+  const logTimeSlot = (slot, index) => {
+    const arrayOfTime = [
+      { Day: slot.day },
+      { slot: slot.startTime },
+      { EndTime: slot.endTime },
+    ];
+    // console.log(`TimeSlot at ${index + 1} : ${JSON.stringify(arrayOfTime)}`);
+    console.log('timeslot', slot);
+
+    // console.log(`Day: ${}`);
+    // console.log(`Start Time: ${}`);
+    // console.log(`End Time: ${}`);
+    // console.log('xxxxxxxxxxxxxxxxx');
+  };
+
+  // const handleChange = (index, field, value) => {
+  //   const newTimeSlots = [...timeSlots];
+  //   newTimeSlots[index][field] = value;
+  //   setTimeSlots(newTimeSlots);
+
+  //   if (field === 'endTime' && value !== '') {
+  //     logTimeSlot(newTimeSlots[index], index);
+  //   }
+  // };
+
+  const handleChange = (index, field, value) => {
+    const newTimeSlots = [...timeSlots];
+    newTimeSlots[index][field] = value;
+    setTimeSlots(newTimeSlots);
+
+    if (field === 'endTime' && value !== '') {
+      logTimeSlot(newTimeSlots);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={addTimeSlot}>Add new</button>
+      <button
+        onClick={() => {
+          setTimeSlots([]);
+        }}
+      >
+        clear
+      </button>
+      {timeSlots.map((slot, index) => (
+        <div key={index}>
+          <div style={{ margin: '10px' }}>Day</div>
+          <select
+            value={slot.day}
+            onChange={(e) => handleChange(index, 'day', e.target.value)}
+          >
+            <option value="">Day</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+          </select>
+          <input
+            type="time"
+            value={slot.startTime}
+            onChange={(e) => handleChange(index, 'startTime', e.target.value)}
+          />
+          <input
+            type="time"
+            value={slot.endTime}
+            onChange={(e) => handleChange(index, 'endTime', e.target.value)}
+          />
+          <button
+            onClick={() => removeTimeSlot(index)}
+            // }
+          >
+            X
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default App;
